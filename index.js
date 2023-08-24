@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
@@ -70,6 +69,12 @@ async function run() {
     app.get('/menu', async(req, res) => {
         const result = await menuCollection.find().toArray();
         res.send(result)
+    })
+    app.post('/menu', async(req, res) => {
+      const item = req.body;
+      console.log(item);
+      const result = await menuCollection.insertOne(item);
+      res.send(result);
     })
 
     // Reviews Related apis
