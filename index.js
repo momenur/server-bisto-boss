@@ -1,3 +1,4 @@
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -66,16 +67,38 @@ async function run() {
     })
 
     // Menu Related apis
+    
     app.get('/menu', async(req, res) => {
         const result = await menuCollection.find().toArray();
         res.send(result)
     })
+    // app.delete('/menu/:id', async(req, res) => {
+    //   const id = req.params.id;
+    //   console.log(id);
+    //   const query = {_id: new ObjectId(id)};
+    //   const result = await menuCollection.deleteOne(query);
+    //   res.send(result);
+    // })
+
+    app.delete('/menu/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      
+      try {
+        const result = await menuCollection.deleteOne(query);
+        res.send(result);
+      } catch (error) {
+        console.error('Error deleting item:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    });
     app.post('/menu', async(req, res) => {
       const item = req.body;
       console.log(item);
       const result = await menuCollection.insertOne(item);
       res.send(result);
     })
+    
 
     // Reviews Related apis
     app.get('/reviews', async(req, res) => {
