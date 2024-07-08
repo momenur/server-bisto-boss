@@ -69,7 +69,7 @@ async function run() {
       res.send(result);
     });
 
-    // Menu Related apis
+    // Menu Related apis here
 
     app.get("/menu", async (req, res) => {
       const result = await menuCollection.find().toArray();
